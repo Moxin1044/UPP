@@ -6,16 +6,44 @@
       </template>
       <t-row :gutter="[16, 16]">
         <t-col :span="3">
-          <t-statistic :title="$t('monitor.status')" :value="latestResult?.status === 'up' ? $t('monitor.up') : $t('monitor.down')" />
+          <div class="stat-card">
+            <div class="stat-icon" :class="latestResult?.status === 'up' ? 'stat-icon--up' : 'stat-icon--down'">
+              <t-icon :name="latestResult?.status === 'up' ? 'check-circle' : 'close-circle'" size="24px" />
+            </div>
+            <div class="stat-info">
+              <div class="stat-title">{{ $t('monitor.status') }}</div>
+              <div class="stat-value" :class="latestResult?.status === 'up' ? 'stat-value--up' : 'stat-value--down'">
+                {{ latestResult?.status === 'up' ? $t('monitor.up') : $t('monitor.down') }}
+              </div>
+            </div>
+          </div>
         </t-col>
         <t-col :span="3">
-          <t-statistic :title="$t('monitor.latency')" :value="latestResult?.latency?.toFixed(1) ?? '0'" suffix="ms" />
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--latency"><t-icon name="time" size="24px" /></div>
+            <div class="stat-info">
+              <div class="stat-title">{{ $t('monitor.latency') }}</div>
+              <div class="stat-value">{{ latestResult?.latency?.toFixed(1) ?? '0' }}<span class="stat-unit">ms</span></div>
+            </div>
+          </div>
         </t-col>
         <t-col :span="3">
-          <t-statistic :title="$t('monitor.uptime')" :value="stats?.uptime?.toFixed(1) ?? '0'" suffix="%" />
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--uptime"><t-icon name="chart" size="24px" /></div>
+            <div class="stat-info">
+              <div class="stat-title">{{ $t('monitor.uptime') }}</div>
+              <div class="stat-value">{{ stats?.uptime?.toFixed(1) ?? '0' }}<span class="stat-unit">%</span></div>
+            </div>
+          </div>
         </t-col>
         <t-col :span="3">
-          <t-statistic :title="$t('monitor.avgLatency')" :value="stats?.avg_latency?.toFixed(1) ?? '0'" suffix="ms" />
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--avg"><t-icon name="swap" size="24px" /></div>
+            <div class="stat-info">
+              <div class="stat-title">{{ $t('monitor.avgLatency') }}</div>
+              <div class="stat-value">{{ stats?.avg_latency?.toFixed(1) ?? '0' }}<span class="stat-unit">ms</span></div>
+            </div>
+          </div>
         </t-col>
       </t-row>
     </t-card>
@@ -39,6 +67,8 @@ import * as echarts from 'echarts'
 
 const route = useRoute()
 const { t } = useI18n()
+
+const darkAxis = { axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } }, axisLabel: { color: 'rgba(255,255,255,0.4)' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.04)' } } }
 
 const monitor = ref<any>(null)
 const results = ref<MonitorResult[]>([])
@@ -72,22 +102,28 @@ onMounted(async () => {
     stats.value = await getMonitorStats(id)
     latestResult.value = results.value.length > 0 ? results.value[0] : null
 
-    // Render chart
     if (chartRef.value) {
       chart = echarts.init(chartRef.value)
       const reversed = [...results.value].reverse()
       chart.setOption({
-        tooltip: { trigger: 'axis' },
-        xAxis: { type: 'category', data: reversed.map((r) => r.created_at) },
-        yAxis: { type: 'value', name: 'ms' },
+        tooltip: { trigger: 'axis', backgroundColor: '#1a2540', borderColor: 'rgba(255,255,255,0.06)', textStyle: { color: '#fff' } },
+        xAxis: { type: 'category', data: reversed.map((r) => r.created_at), ...darkAxis },
+        yAxis: { type: 'value', name: 'ms', nameTextStyle: { color: 'rgba(255,255,255,0.4)' }, ...darkAxis },
         series: [
           {
             type: 'line',
             data: reversed.map((r) => r.latency),
-            areaStyle: { opacity: 0.3 },
-            itemStyle: { color: '#1890ff' },
+            smooth: true,
+            areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgba(0, 212, 255, 0.3)' },
+              { offset: 1, color: 'rgba(0, 212, 255, 0.02)' },
+            ]) },
+            itemStyle: { color: '#00d4ff' },
+            lineStyle: { width: 2 },
+            symbol: 'none',
           },
         ],
+        grid: { left: 50, right: 20, top: 20, bottom: 30 },
       })
     }
   } finally {
@@ -106,3 +142,58 @@ onUnmounted(() => {
   window.removeEventListener('resize', onResize)
 })
 </script>
+
+<style scoped>
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--upp-bg-card);
+  border: 1px solid var(--upp-border);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s;
+}
+.stat-card:hover {
+  border-color: var(--upp-border-hover);
+  box-shadow: 0 0 20px rgba(0, 180, 255, 0.06);
+}
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stat-icon--up { background: rgba(82, 196, 26, 0.1); color: #73d13d; }
+.stat-icon--down { background: rgba(255, 77, 79, 0.1); color: #ff7875; }
+.stat-icon--latency { background: rgba(0, 212, 255, 0.1); color: #00d4ff; }
+.stat-icon--uptime { background: rgba(82, 196, 26, 0.1); color: #73d13d; }
+.stat-icon--avg { background: rgba(123, 97, 255, 0.1); color: #b37feb; }
+
+.stat-info { flex: 1; min-width: 0; }
+.stat-title {
+  font-size: 12px;
+  color: var(--upp-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--upp-text-primary);
+  line-height: 1;
+}
+.stat-value--up { color: #73d13d; }
+.stat-value--down { color: #ff7875; }
+.stat-unit {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--upp-text-tertiary);
+  margin-left: 2px;
+}
+</style>

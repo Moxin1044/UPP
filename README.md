@@ -2,15 +2,27 @@
 
 UPP (Uptime Probe Platform) 是一个类似 Uptime Kuma 的网站监控系统，支持多种监控类型、多项目管理、多用户隔离、实时状态推送和通知告警。
 
-![](attachments/image-20260526004854027.png)
+![](attachments/image-20260526012537912.png)
 
-![](attachments/image-20260526004928927.png)
+![](attachments/image-20260526010335375.png)
 
-![](attachments/image-20260526004946867.png)
+![](attachments/image-20260526011903490.png)
 
-![](attachments/image-20260526005005251.png)
+![](attachments/image-20260526011921411.png)
 
-![](attachments/image-20260526005113644.png)
+![](attachments/image-20260526012321792.png)
+
+![](attachments/image-20260526012359437.png)
+
+![](attachments/image-20260526012445196.png)
+
+![](attachments/image-20260526012458154.png)
+
+![](attachments/image-20260526012521479.png)
+
+
+
+
 
 ## 功能特性
 

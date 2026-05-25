@@ -1,0 +1,328 @@
+:root {
+  --upp-bg-primary: #0a1628;
+  --upp-bg-secondary: #0e1729;
+  --upp-bg-card: rgba(14, 23, 41, 0.92);
+  --upp-bg-card-hover: rgba(18, 30, 52, 0.95);
+  --upp-bg-input: rgba(255, 255, 255, 0.04);
+  --upp-bg-input-hover: rgba(255, 255, 255, 0.06);
+  --upp-border: rgba(255, 255, 255, 0.06);
+  --upp-border-hover: rgba(0, 212, 255, 0.35);
+  --upp-border-focus: #00d4ff;
+  --upp-text-primary: #fff;
+  --upp-text-secondary: rgba(255, 255, 255, 0.65);
+  --upp-text-tertiary: rgba(255, 255, 255, 0.35);
+  --upp-text-placeholder: rgba(255, 255, 255, 0.2);
+  --upp-accent: #00d4ff;
+  --upp-accent-blue: #0066ff;
+  --upp-accent-gradient: linear-gradient(135deg, #00a8ff, #0066ff);
+  --upp-success: #52c41a;
+  --upp-danger: #ff4d4f;
+  --upp-warning: #faad14;
+  --upp-glow: rgba(0, 212, 255, 0.12);
+}
+
+/* ===== Override TDesign dark CSS variables to use UPP deep blue ===== */
+:root[theme-mode="dark"] {
+  --td-bg-color-page: #0a1628;
+  --td-bg-color-container: #0e1729;
+  --td-bg-color-container-hover: #111d33;
+  --td-bg-color-container-active: #152240;
+  --td-bg-color-container-select: #111d33;
+  --td-bg-color-secondarycontainer: #0c1424;
+  --td-bg-color-secondarycontainer-hover: #111d33;
+  --td-bg-color-secondarycontainer-active: #152240;
+  --td-bg-color-component: #111d33;
+  --td-bg-color-component-hover: #152240;
+  --td-bg-color-component-active: #1a2a48;
+  --td-bg-color-secondarycomponent: #152240;
+  --td-bg-color-secondarycomponent-hover: #1a2a48;
+  --td-bg-color-secondarycomponent-active: #1f3355;
+  --td-bg-color-component-disabled: #0e1729;
+  --td-bg-color-specialcomponent: transparent;
+
+  --td-border-level-1-color: rgba(255, 255, 255, 0.06);
+  --td-component-stroke: rgba(255, 255, 255, 0.06);
+  --td-border-level-2-color: rgba(255, 255, 255, 0.1);
+  --td-component-border: rgba(255, 255, 255, 0.1);
+
+  --td-brand-color: #00d4ff;
+  --td-brand-color-hover: #33dfff;
+  --td-brand-color-active: #00a8cc;
+  --td-brand-color-focus: rgba(0, 212, 255, 0.2);
+  --td-brand-color-light: rgba(0, 212, 255, 0.08);
+  --td-brand-color-light-hover: rgba(0, 212, 255, 0.15);
+
+  --td-text-color-brand: #00d4ff;
+  --td-text-color-link: #00d4ff;
+
+  --td-shadow-1: 0 1px 10px rgba(0, 0, 0, 0.3), 0 4px 5px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+  --td-shadow-2: 0 3px 14px 2px rgba(0, 0, 0, 0.3), 0 8px 10px 1px rgba(0, 0, 0, 0.35), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+  --td-shadow-3: 0 6px 30px 5px rgba(0, 0, 0, 0.3), 0 16px 24px 2px rgba(0, 0, 0, 0.25), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+
+  --td-scrollbar-color: rgba(255, 255, 255, 0.1);
+  --td-scrollbar-hover-color: rgba(255, 255, 255, 0.2);
+  --td-scroll-track-color: transparent;
+}
+
+/* ===== UPP Custom Dark Theme Overrides ===== */
+/* TDesign dark mode is enabled via theme-mode="dark" on <html>.
+   Below are UPP-specific overrides for the sci-fi dark aesthetic. */
+
+body {
+  background: var(--upp-bg-primary) !important;
+  color: var(--upp-text-primary) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ==================== Layout ==================== */
+.t-layout {
+  background: var(--upp-bg-primary) !important;
+}
+.t-layout__content {
+  background: var(--upp-bg-primary) !important;
+}
+
+/* ==================== Aside / Sidebar ==================== */
+.t-aside {
+  background: linear-gradient(180deg, #060e1a 0%, #0a1628 100%) !important;
+  border-right: 1px solid var(--upp-border) !important;
+}
+
+/* ==================== Header ==================== */
+.t-header {
+  background: rgba(10, 22, 40, 0.8) !important;
+  border-bottom: 1px solid var(--upp-border) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* ==================== Menu ==================== */
+.t-menu {
+  background: transparent !important;
+}
+.t-menu-item {
+  border-radius: 8px !important;
+  margin: 2px 8px !important;
+  transition: all 0.2s;
+}
+.t-menu-item:hover {
+  background: rgba(0, 212, 255, 0.06) !important;
+}
+.t-menu-item.t-is-active {
+  background: linear-gradient(135deg, rgba(0, 168, 255, 0.2), rgba(0, 102, 255, 0.2)) !important;
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.1);
+}
+.t-menu-item .t-icon {
+  color: inherit !important;
+}
+
+/* ==================== Card ==================== */
+.t-card {
+  background: var(--upp-bg-card) !important;
+  border: 1px solid var(--upp-border) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(12px);
+}
+
+/* ==================== Table ==================== */
+.t-table {
+  background: transparent !important;
+}
+.t-table__header th {
+  background: rgba(255, 255, 255, 0.03) !important;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.t-table__row td {
+  background: transparent !important;
+}
+.t-table__row:hover td,
+.t-table__body tr.t-table__row--hover td {
+  background: rgba(0, 212, 255, 0.04) !important;
+}
+
+/* ==================== Input ==================== */
+.t-input {
+  background: var(--upp-bg-input) !important;
+}
+.t-input:hover {
+  background: var(--upp-bg-input-hover) !important;
+}
+.t-input.t-is-focused {
+  border-color: var(--upp-border-focus) !important;
+  box-shadow: 0 0 0 2px var(--upp-glow) !important;
+}
+.t-input input {
+  caret-color: var(--upp-accent);
+}
+
+/* ==================== Textarea ==================== */
+.t-textarea__inner {
+  background: var(--upp-bg-input) !important;
+}
+.t-textarea__inner:focus {
+  border-color: var(--upp-border-focus) !important;
+  box-shadow: 0 0 0 2px var(--upp-glow) !important;
+}
+
+/* ==================== Select ==================== */
+.t-select .t-input {
+  background: var(--upp-bg-input) !important;
+}
+
+/* ==================== Popup / Dropdown ==================== */
+.t-popup__content {
+  background: #1a2540 !important;
+  border: 1px solid var(--upp-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+.t-select-option:hover {
+  background: rgba(0, 212, 255, 0.08) !important;
+}
+.t-select-option.t-is-selected {
+  color: var(--upp-accent) !important;
+}
+
+/* ==================== Dialog ==================== */
+.t-dialog {
+  background: #111b30 !important;
+  border: 1px solid var(--upp-border) !important;
+  border-radius: 16px !important;
+}
+.t-dialog__close:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+.t-dialog__mask {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* ==================== Form ==================== */
+.t-input-number {
+  background: var(--upp-bg-input) !important;
+}
+.t-input-number .t-input {
+  background: transparent !important;
+}
+
+/* ==================== Button ==================== */
+.t-button--theme-primary {
+  background: var(--upp-accent-gradient) !important;
+  border: none !important;
+}
+.t-button--theme-primary:hover {
+  box-shadow: 0 4px 16px rgba(0, 150, 255, 0.35) !important;
+}
+.t-button--variant-base {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: var(--upp-border) !important;
+}
+.t-button--variant-base:hover {
+  border-color: var(--upp-border-hover) !important;
+}
+.t-button--variant-text:hover {
+  background: rgba(0, 212, 255, 0.06) !important;
+}
+.t-button--theme-danger.t-button--variant-text:hover {
+  background: rgba(255, 77, 79, 0.08) !important;
+}
+
+/* ==================== Tag ==================== */
+.t-tag {
+  border-radius: 6px !important;
+}
+.t-tag--success {
+  background: rgba(82, 196, 26, 0.15) !important;
+  color: #73d13d !important;
+  border-color: rgba(82, 196, 26, 0.3) !important;
+}
+.t-tag--warning {
+  background: rgba(250, 173, 20, 0.15) !important;
+  color: #ffc53d !important;
+  border-color: rgba(250, 173, 20, 0.3) !important;
+}
+.t-tag--danger {
+  background: rgba(255, 77, 79, 0.15) !important;
+  color: #ff7875 !important;
+  border-color: rgba(255, 77, 79, 0.3) !important;
+}
+
+/* ==================== Statistic ==================== */
+.t-statistic__title {
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.t-statistic__content {
+  font-weight: 700 !important;
+}
+
+/* ==================== Popconfirm ==================== */
+.t-popconfirm {
+  background: #1a2540 !important;
+  border: 1px solid var(--upp-border) !important;
+}
+
+/* ==================== Dropdown ==================== */
+.t-dropdown__menu {
+  background: #1a2540 !important;
+  border: 1px solid var(--upp-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+.t-dropdown__item:hover {
+  background: rgba(0, 212, 255, 0.08) !important;
+  color: var(--upp-accent) !important;
+}
+
+/* ==================== Tooltip ==================== */
+.t-tooltip__content {
+  background: #1a2540 !important;
+  border: 1px solid var(--upp-border) !important;
+  border-radius: 6px !important;
+}
+
+/* ==================== Switch ==================== */
+.t-switch.t-is-checked {
+  background: var(--upp-accent-gradient) !important;
+}
+
+/* ==================== Tabs ==================== */
+.t-tabs__item.t-is-active {
+  color: var(--upp-accent) !important;
+}
+.t-tabs__bar {
+  background: var(--upp-accent) !important;
+}
+
+/* ==================== Link ==================== */
+.t-link--theme-primary {
+  color: var(--upp-accent) !important;
+}
+.t-link--theme-primary:hover {
+  color: #33dfff !important;
+}
+
+/* ==================== Scrollbar ==================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ==================== Selection ==================== */
+::selection {
+  background: rgba(0, 212, 255, 0.25);
+  color: #fff;
+}

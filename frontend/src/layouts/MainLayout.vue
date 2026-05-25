@@ -2,8 +2,27 @@
   <t-layout class="main-layout">
     <t-aside class="sidebar" :collapsed="collapsed">
       <div class="logo">
-        <h2 v-if="!collapsed">UUP</h2>
-        <h2 v-else>U</h2>
+        <svg v-if="!collapsed" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+          <defs>
+            <linearGradient id="sideLogoGrad" x1="0" y1="0" x2="64" y2="64">
+              <stop stop-color="#00d4ff" />
+              <stop offset="1" stop-color="#7b61ff" />
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="60" height="60" rx="16" stroke="url(#sideLogoGrad)" stroke-width="2" />
+          <path d="M32 12L48 20V44L32 52L16 44V20L32 12Z" stroke="url(#sideLogoGrad)" stroke-width="1.5" fill="none" />
+          <circle cx="32" cy="32" r="6" fill="url(#sideLogoGrad)" opacity="0.8" />
+        </svg>
+        <span v-if="!collapsed" class="logo-text">UPP</span>
+        <svg v-else viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg-small">
+          <defs>
+            <linearGradient id="sideLogoGradS" x1="0" y1="0" x2="64" y2="64">
+              <stop stop-color="#00d4ff" />
+              <stop offset="1" stop-color="#7b61ff" />
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="20" fill="url(#sideLogoGradS)" opacity="0.8" />
+        </svg>
       </div>
       <t-menu :value="activeMenu" :collapsed="collapsed" @change="onMenuChange">
         <t-menu-item value="Dashboard">
@@ -35,20 +54,21 @@
     <t-layout>
       <t-header class="header">
         <div class="header-left">
-          <t-button variant="text" @click="collapsed = !collapsed">
+          <t-button variant="text" @click="collapsed = !collapsed" class="collapse-btn">
             <template #icon><t-icon name="view-list" /></template>
           </t-button>
         </div>
         <div class="header-right">
-          <t-select v-model="locale" size="small" style="width: 100px" @change="onLocaleChange">
+          <t-select v-model="currentLocale" size="small" class="lang-select" @change="onLocaleChange">
             <t-option value="zh" label="中文" />
             <t-option value="en" label="English" />
           </t-select>
           <t-dropdown :options="userMenuOptions" @click="onUserMenuClick">
-            <t-button variant="text">
-              {{ userStore.userInfo?.username || 'User' }}
-              <template #suffix><t-icon name="chevron-down" /></template>
-            </t-button>
+            <div class="user-badge">
+              <t-icon name="user-circle" size="20px" />
+              <span>{{ userStore.userInfo?.username || 'User' }}</span>
+              <t-icon name="chevron-down" size="16px" />
+            </div>
           </t-dropdown>
         </div>
       </t-header>
@@ -72,6 +92,7 @@ const userStore = useUserStore()
 const { locale } = useI18n()
 
 const collapsed = ref(false)
+const currentLocale = ref(locale.value)
 
 const activeMenu = computed(() => {
   const name = route.name as string
@@ -111,47 +132,113 @@ onMounted(() => {
 <style scoped>
 .main-layout {
   height: 100vh;
+  background: var(--upp-bg-primary);
 }
+
 .sidebar {
-  background: #001529;
+  background: linear-gradient(180deg, #060e1a 0%, #0a1628 100%) !important;
+  border-right: 1px solid var(--upp-border) !important;
   transition: all 0.3s;
 }
+
 .logo {
   height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  gap: 10px;
+  border-bottom: 1px solid var(--upp-border);
+  padding: 0 16px;
 }
-.logo h2 {
-  margin: 0;
-  font-size: 20px;
+
+.logo-svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
 }
+
+.logo-svg-small {
+  width: 28px;
+  height: 28px;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #fff 0%, #a0d2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: #fff;
-  border-bottom: 1px solid #e7e7e7;
+  background: rgba(10, 22, 40, 0.8) !important;
+  border-bottom: 1px solid var(--upp-border) !important;
   height: 64px;
+  backdrop-filter: blur(12px);
 }
+
 .header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
+
+.collapse-btn {
+  color: var(--upp-text-secondary) !important;
+}
+
+.lang-select {
+  width: 100px;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--upp-text-secondary);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.user-badge:hover {
+  background: rgba(0, 212, 255, 0.06);
+  color: var(--upp-accent);
+}
+
 .content {
   padding: 24px;
-  background: #f0f2f5;
+  background: var(--upp-bg-primary) !important;
   overflow-y: auto;
 }
+
+/* Menu overrides */
 :deep(.t-menu) {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.65);
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+:deep(.t-menu-item) {
+  color: rgba(255, 255, 255, 0.5) !important;
+  border-radius: 8px !important;
+  margin: 2px 8px !important;
+  transition: all 0.2s;
+}
+:deep(.t-menu-item:hover) {
+  color: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(0, 212, 255, 0.06) !important;
 }
 :deep(.t-menu-item.t-is-active) {
-  color: #fff;
-  background: #1890ff;
+  color: #fff !important;
+  background: linear-gradient(135deg, rgba(0, 168, 255, 0.2), rgba(0, 102, 255, 0.2)) !important;
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.1);
+}
+:deep(.t-menu-item .t-icon) {
+  color: inherit !important;
 }
 </style>
