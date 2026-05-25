@@ -1,0 +1,18 @@
+server:
+  port: "8080"
+
+database:
+  host: postgres
+  port: "5432"
+  user: upp
+  password: upp123
+  dbname: upp
+  sslmode: disable
+
+mongodb:
+  uri: mongodb://mongo:27017
+  database: upp
+
+jwt:
+  secret: upp-jwt-secret-key-2024
+  expire: 72
